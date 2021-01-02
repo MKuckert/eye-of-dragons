@@ -1,0 +1,18 @@
+[
+{
+  "modid": "eyeofdragons",
+  "name": "Eye of Dragons",
+  "description": "Adds Eye of Dragons to find Ice and Fire dragons",
+  "version": "0.0.1",
+  "mcversion": "1.12.2",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["Martin Kuckert"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "requiredMods": [ "llibrary", "iceandfire", "forge" ],
+  "dependencies": [ "llibrary", "iceandfire", "forge" ],
+  "useDependencyInformation": true
+}
+]
