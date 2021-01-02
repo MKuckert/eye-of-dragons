@@ -1,6 +1,5 @@
 package de.curlybracket.eyeofdragons;
 
-import de.curlybracket.eyeofdragons.EntityDragonEye;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -29,19 +28,15 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import java.io.IOException;
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-
 @Mod.EventBusSubscriber
 public class ClientProxy extends CommonProxy {
     @SubscribeEvent
     @SideOnly(Side.CLIENT)
     public static void registerModels(ModelRegistryEvent event) {
-        ModelLoader.setCustomModelResourceLocation(ModItems.dragon_eye, 0, new ModelResourceLocation("eyeofdragons:dragon_eye", "inventory"));
-        ModelLoader.setCustomModelResourceLocation(ModItems.dragon_eye, 1, new ModelResourceLocation("eyeofdragons:dragon_eye", "inventory"));
+        ModelLoader.setCustomModelResourceLocation(ModItems.eye_of_firedragon, 0, new ModelResourceLocation("eyeofdragons:eye_of_firedragon", "inventory"));
+        ModelLoader.setCustomModelResourceLocation(ModItems.eye_of_firedragon, 1, new ModelResourceLocation("eyeofdragons:eye_of_firedragon", "inventory"));
+        ModelLoader.setCustomModelResourceLocation(ModItems.eye_of_icedragon, 0, new ModelResourceLocation("eyeofdragons:eye_of_icedragon", "inventory"));
+        ModelLoader.setCustomModelResourceLocation(ModItems.eye_of_icedragon, 1, new ModelResourceLocation("eyeofdragons:eye_of_icedragon", "inventory"));
     }
 
     @SideOnly(Side.CLIENT)
@@ -54,6 +49,7 @@ public class ClientProxy extends CommonProxy {
     @SuppressWarnings("deprecation")
     @SideOnly(Side.CLIENT)
     private void renderEntities() {
-        RenderingRegistry.registerEntityRenderingHandler(EntityDragonEye.class, new RenderSnowball(Minecraft.getMinecraft().getRenderManager(), ModItems.dragon_eye, Minecraft.getMinecraft().getRenderItem()));
+        RenderingRegistry.registerEntityRenderingHandler(EntityFireDragonEye.class, new RenderSnowball(Minecraft.getMinecraft().getRenderManager(), ModItems.eye_of_firedragon, Minecraft.getMinecraft().getRenderItem()));
+        RenderingRegistry.registerEntityRenderingHandler(EntityIceDragonEye.class, new RenderSnowball(Minecraft.getMinecraft().getRenderManager(), ModItems.eye_of_icedragon, Minecraft.getMinecraft().getRenderItem()));
     }
 }

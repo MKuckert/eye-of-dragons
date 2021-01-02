@@ -5,11 +5,11 @@
       "item": "minecraft:ender_eye"
     },
     {
-      "item": "iceandfire:fire_dragon_heart"
+      "item": "iceandfire:ice_dragon_heart"
     }
   ],
   "result": {
-    "item": "eyeofdragons:dragon_eye",
+    "item": "eyeofdragons:eye_of_icedragon",
     "count": 1
   }
 }

@@ -1,6 +1,6 @@
 {
    "parent": "item/generated",
    "textures": {
-       "layer0": "eyeofdragons:items/dragon_eye"
+       "layer0": "eyeofdragons:items/eye_of_icedragon"
    }
 }

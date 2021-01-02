@@ -9,7 +9,7 @@
   "updateUrl": "",
   "authorList": ["Martin Kuckert"],
   "credits": "",
-  "logoFile": "",
+  "logoFile": "assets/textures/items/eye_of_firedragon.png",
   "screenshots": [],
   "requiredMods": [ "llibrary", "iceandfire", "forge" ],
   "dependencies": [ "llibrary", "iceandfire", "forge" ],

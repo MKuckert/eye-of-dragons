@@ -1,5 +1,6 @@
 package de.curlybracket.eyeofdragons;
 
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
@@ -13,16 +14,15 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 
-import com.github.alexthe666.iceandfire.entity.EntityFireDragon;
-
 import java.util.List;
 
-public class ItemDragonEye extends Item {
+public abstract class ItemEyeBase extends Item {
 
-    public ItemDragonEye() {
+    public ItemEyeBase(String name) {
         super();
-        this.setTranslationKey("eyeofdragons.dragon_eye");
-        this.setRegistryName(EyeOfDragonsMod.MODID, "dragon_eye");
+        this.setCreativeTab(CreativeTabs.MISC);
+        this.setTranslationKey("eyeofdragons."+name);
+        this.setRegistryName(EyeOfDragonsMod.MODID, name);
         this.maxStackSize = 16;
     }
 
@@ -39,14 +39,15 @@ public class ItemDragonEye extends Item {
         return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemstack);
     }
 
+    protected abstract List<Entity> getNearbyEntities(World world, EntityPlayer player);
+    protected abstract EntityEyeBase createEntity(World world, EntityPlayer player, ItemStack itemstack);
+
     private void findDragonAndShoot(World world, EntityPlayer player, ItemStack itemstack)
     {
-        AxisAlignedBB bb = new AxisAlignedBB(player.getPosition()).grow(500);
-
-        List<Entity> entities = world.getEntitiesWithinAABB(EntityFireDragon.class, bb);
+        List<Entity> entities = getNearbyEntities(world, player);
 
         if(entities.size()==0) {
-            player.sendStatusMessage(new TextComponentTranslation("item.greater_eye.greater_eye.nonfound"), true);
+            player.sendStatusMessage(new TextComponentTranslation("item.eyeofdragons.dragon_eye.nonfound"), true);
             return;
         }
 
@@ -60,7 +61,7 @@ public class ItemDragonEye extends Item {
             }
         }
 
-        EntityDragonEye finderentity = new EntityDragonEye(world, player.posX, player.posY + player.height, player.posZ, getDamage(itemstack));
+        EntityEyeBase finderentity = createEntity(world, player, itemstack);
         world.spawnEntity(finderentity);
         finderentity.setDestination(nearestEntity.posX, nearestEntity.posY, nearestEntity.posZ);
 

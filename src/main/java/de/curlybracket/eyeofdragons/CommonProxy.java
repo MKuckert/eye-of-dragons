@@ -1,6 +1,5 @@
 package de.curlybracket.eyeofdragons;
 
-import de.curlybracket.eyeofdragons.EntityDragonEye;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
@@ -24,7 +23,7 @@ import java.lang.reflect.Field;
 public class CommonProxy {
     @SubscribeEvent
     public static void registerEntities(RegistryEvent.Register<EntityEntry> event) {
-        registerUnspawnable(EntityEntryBuilder.<EntityDragonEye>create(), event, EntityDragonEye.class, "dragon_eye", 47);
+        registerUnspawnable(EntityEntryBuilder.<EntityFireDragonEye>create(), event, EntityFireDragonEye.class, "eye_of_dragon", 47);
     }
 
     public static void registerUnspawnable(EntityEntryBuilder builder, RegistryEvent.Register<EntityEntry> event, Class<? extends Entity> entityClass, String name, int id) {

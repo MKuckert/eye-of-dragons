@@ -2,6 +2,7 @@ package de.curlybracket.eyeofdragons;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumParticleTypes;
@@ -10,14 +11,15 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraft.world.World;
 
-public class EntityDragonEye extends Entity {
+public abstract class EntityEyeBase extends Entity {
     private double targetX, targetY, targetZ;
     private int ticksLived;
     private boolean shatter;
     private int id;
 
-    public EntityDragonEye(World world) {
+    public EntityEyeBase(World world) {
         super(world);
         setSize(0.25F, 0.25F);
     }
@@ -36,11 +38,11 @@ public class EntityDragonEye extends Entity {
         return par1 < d0 * d0;
     }
 
-    public EntityDragonEye(World world, double x, double y, double z, int id) {
+    public EntityEyeBase(World world, double x, double y, double z, int id) {
         super(world);
         setSize(0.25F, 0.25F);
         setPosition(x, y, z);
-        id = id;
+        this.id = id;
 
         // flat 60% rate for now
         shatter = rand.nextInt(100) > 59;
@@ -77,7 +79,7 @@ public class EntityDragonEye extends Entity {
         posZ += motionZ;
         float distanceMoved = MathHelper.sqrt(motionX * motionX + motionZ * motionZ);
         rotationYaw = (float)(Math.atan2(motionX, motionZ) * 180.0D / Math.PI);
-        EntityWorld world = getEntityWorld();
+        World world = getEntityWorld();
 
         for(rotationPitch = (float)(Math.atan2(motionY, (double)distanceMoved) * 180.0D / Math.PI); rotationPitch - prevRotationPitch < -180.0F; prevRotationPitch -= 360.0F) {
             ;
@@ -133,13 +135,15 @@ public class EntityDragonEye extends Entity {
             if(ticksLived > 80 && !world.isRemote) {
                 setDead();
                 if(shatter) {
-                    world.spawnEntity(new EntityItem(world, posX, posY, posZ, new ItemStack(ModItems.dragon_eye, 1, id)));
+                    world.spawnEntity(new EntityItem(world, posX, posY, posZ, new ItemStack(getDropItem(), 1, id)));
                 } else {
                     world.playEvent(2003, new BlockPos(this), 0);
                 }
             }
         }
     }
+
+    protected abstract Item getDropItem();
 
     @Override
     public void writeEntityToNBT(NBTTagCompound par1NBTTagCompound) {
