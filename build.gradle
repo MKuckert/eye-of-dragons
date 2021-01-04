@@ -21,7 +21,7 @@ buildscript {
 apply plugin: 'net.minecraftforge.gradle.forge'
 //Only edit below this line, the above code adds and enables the nessasary things for Forge to be setup.
 
-version = "0.0.1"
+version = "0.0.2"
 group= "eyeofdragons"
 archivesBaseName = "eyeofdragons"
 sourceCompatibility = targetCompatibility = "1.8"

@@ -10,7 +10,6 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 
@@ -21,7 +20,7 @@ public abstract class ItemEyeBase extends Item {
     public ItemEyeBase(String name) {
         super();
         this.setCreativeTab(CreativeTabs.MISC);
-        this.setTranslationKey("eyeofdragons."+name);
+        this.setTranslationKey(EyeOfDragonsMod.MODID+"."+name);
         this.setRegistryName(EyeOfDragonsMod.MODID, name);
         this.maxStackSize = 16;
     }
@@ -36,7 +35,7 @@ public abstract class ItemEyeBase extends Item {
             findDragonAndShoot(worldIn, player, itemstack);
         }
 
-        return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemstack);
+        return new ActionResult<>(EnumActionResult.SUCCESS, itemstack);
     }
 
     protected abstract List<Entity> getNearbyEntities(World world, EntityPlayer player);
@@ -61,12 +60,12 @@ public abstract class ItemEyeBase extends Item {
             }
         }
 
-        EntityEyeBase finderentity = createEntity(world, player, itemstack);
-        world.spawnEntity(finderentity);
-        finderentity.setDestination(nearestEntity.posX, nearestEntity.posY, nearestEntity.posZ);
+        EntityEyeBase finderEntity = createEntity(world, player, itemstack);
+        world.spawnEntity(finderEntity);
+        finderEntity.moveTowards(nearestEntity.posX, nearestEntity.posY, nearestEntity.posZ);
 
-        world.playSound((EntityPlayer)null, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_ENDEREYE_LAUNCH, SoundCategory.NEUTRAL, 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
-        world.playEvent((EntityPlayer)null, 1003, player.getPosition(), 0);
+        world.playSound(null, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_ENDEREYE_LAUNCH, SoundCategory.NEUTRAL, 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
+        world.playEvent(null, 1003, player.getPosition(), 0);
 
         if (!player.capabilities.isCreativeMode) {
             itemstack.shrink(1);

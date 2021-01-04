@@ -11,9 +11,10 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import net.minecraft.world.World;
 
 public abstract class EntityEyeBase extends Entity {
+    private final double MAX_DISTANCE = 20D;
+
     private double targetX, targetY, targetZ;
     private int ticksLived;
     private boolean shatter;
@@ -48,10 +49,20 @@ public abstract class EntityEyeBase extends Entity {
         shatter = rand.nextInt(100) > 59;
     }
 
-    public void setDestination(double x, double y, double z) {
-        targetX = x;
-        targetY = y;
-        targetZ = z;
+    public void moveTowards(double x, double y, double z) {
+        double deltaX = x - posX;
+        double deltaZ = z - posZ;
+
+        double distance = MathHelper.sqrt(deltaX * deltaX + deltaZ * deltaZ);
+        if (distance > MAX_DISTANCE) {
+            targetX = posX + deltaX / distance * MAX_DISTANCE;
+            targetZ = posZ + deltaZ / distance * MAX_DISTANCE;
+            targetY = posY + 8.0D;
+        } else {
+            targetX = x;
+            targetY = y;
+            targetZ = z;
+        }
     }
 
     @SideOnly(Side.CLIENT)
@@ -81,8 +92,7 @@ public abstract class EntityEyeBase extends Entity {
         rotationYaw = (float)(Math.atan2(motionX, motionZ) * 180.0D / Math.PI);
         World world = getEntityWorld();
 
-        for(rotationPitch = (float)(Math.atan2(motionY, (double)distanceMoved) * 180.0D / Math.PI); rotationPitch - prevRotationPitch < -180.0F; prevRotationPitch -= 360.0F) {
-            ;
+        for(rotationPitch = (float)(Math.atan2(motionY, distanceMoved) * 180.0D / Math.PI); rotationPitch - prevRotationPitch < -180.0F; prevRotationPitch -= 360.0F) {
         }
 
         while(rotationPitch - prevRotationPitch >= 180.0F) {
@@ -111,8 +121,8 @@ public abstract class EntityEyeBase extends Entity {
                 motionY *= 0.8D;
             }
 
-            motionX = Math.cos((double)f2) * d2;
-            motionZ = Math.sin((double)f2) * d2;
+            motionX = Math.cos(f2) * d2;
+            motionZ = Math.sin(f2) * d2;
             if(posY < targetY) {
                 motionY += (1.0D - motionY) * 0.014999999664723873D;
             } else {
