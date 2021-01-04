@@ -1,6 +1,5 @@
 package de.curlybracket.eyeofdragons;
 
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
@@ -19,7 +18,6 @@ public abstract class ItemEyeBase extends Item {
 
     public ItemEyeBase(String name) {
         super();
-        this.setCreativeTab(CreativeTabs.MISC);
         this.setTranslationKey(EyeOfDragonsMod.MODID+"."+name);
         this.setRegistryName(EyeOfDragonsMod.MODID, name);
         this.maxStackSize = 16;
