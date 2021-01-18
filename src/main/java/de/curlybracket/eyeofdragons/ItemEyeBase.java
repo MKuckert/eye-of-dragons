@@ -1,71 +1,64 @@
 package de.curlybracket.eyeofdragons;
 
+import com.github.alexthe666.iceandfire.misc.IafSoundRegistry;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.SoundEvents;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.projectile.EyeOfEnderEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.*;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 
 import java.util.List;
 
 public abstract class ItemEyeBase extends Item {
-
-    public ItemEyeBase(String name) {
-        super();
-        this.setTranslationKey(EyeOfDragonsMod.MODID+"."+name);
-        this.setRegistryName(EyeOfDragonsMod.MODID, name);
-        this.maxStackSize = 16;
+    public ItemEyeBase(Properties properties) {
+        super(properties);
     }
 
-    public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer player, EnumHand hand) {
+    @Override
+    public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand) {
         ItemStack itemstack = player.getHeldItem(hand);
 
         player.setActiveHand(hand);
 
-        if(!worldIn.isRemote && player.dimension == 0)
-        {
-            findDragonAndShoot(worldIn, player, itemstack);
+        if (!world.isRemote && world.getDimensionKey().equals(World.OVERWORLD)) {
+            findDragonAndShoot(world, player, itemstack);
         }
 
-        return new ActionResult<>(EnumActionResult.SUCCESS, itemstack);
+        return new ActionResult<>(ActionResultType.SUCCESS, itemstack);
     }
 
-    protected abstract List<Entity> getNearbyEntities(World world, EntityPlayer player);
-    protected abstract EntityEyeBase createEntity(World world, EntityPlayer player, ItemStack itemstack);
+    protected abstract List<Entity> getNearbyEntities(World world, PlayerEntity player);
 
-    private void findDragonAndShoot(World world, EntityPlayer player, ItemStack itemstack)
-    {
+    private void findDragonAndShoot(World world, PlayerEntity player, ItemStack itemstack) {
         List<Entity> entities = getNearbyEntities(world, player);
 
-        if(entities.size()==0) {
-            player.sendStatusMessage(new TextComponentTranslation("item.eyeofdragons.dragon_eye.nonfound"), true);
+        if (entities.size() == 0) {
+            player.sendStatusMessage(new TranslationTextComponent("item.eyeofdragons.dragon_eye.nonfound"), true);
             return;
         }
 
         double nearestDistance = Integer.MAX_VALUE;
         Entity nearestEntity = null;
-        for (Entity entity: entities) {
-            double distance = entity.getDistance(player.posX, player.posY, player.posZ);
-            if(distance < nearestDistance) {
+        for (Entity entity : entities) {
+            double distance = entity.getDistance(player);
+            if (distance < nearestDistance) {
                 nearestDistance = distance;
                 nearestEntity = entity;
             }
         }
 
-        EntityEyeBase finderEntity = createEntity(world, player, itemstack);
-        world.spawnEntity(finderEntity);
-        finderEntity.moveTowards(nearestEntity.posX, nearestEntity.posY, nearestEntity.posZ);
+        EyeOfEnderEntity finderEntity = new EyeOfEnderEntity(world, player.getPosX(), player.getPosYEye(), player.getPosZ());
+        finderEntity.func_213863_b(itemstack);
+        finderEntity.moveTowards(nearestEntity.getPosition());
+        world.addEntity(finderEntity);
 
-        world.playSound(null, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_ENDEREYE_LAUNCH, SoundCategory.NEUTRAL, 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
+        world.playSound(null, player.getPosX(), player.getPosY(), player.getPosZ(), IafSoundRegistry.DRAGON_FLIGHT, SoundCategory.NEUTRAL, 1F, 0.4F / (random.nextFloat() * 0.4F + 0.8F));
         world.playEvent(null, 1003, player.getPosition(), 0);
 
-        if (!player.capabilities.isCreativeMode) {
+        if (!player.isCreative()) {
             itemstack.shrink(1);
         }
     }

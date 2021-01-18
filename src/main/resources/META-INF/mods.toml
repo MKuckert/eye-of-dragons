@@ -1,0 +1,29 @@
+modLoader="javafml"
+loaderVersion="[35,)"
+license="LGPL"
+issueTrackerURL="https://github.com/MKuckert/eye-of-dragons/issues"
+[[mods]]
+modId="eyeofdragons"
+version="${file.jarVersion}"
+displayName="Eye of Dragons"
+logoFile="assets/eyeofdragons/logo.png"
+credits=""
+authors="Martin Kuckert"
+description='''
+Adds Eye of Dragons to find Ice, Fire and Lightning dragons
+'''
+
+[[dependencies.eyeofdragons]]
+    modId="iceandfire"
+    mandatory=true
+    versionRange="[2.1.5,)"
+    ordering="AFTER"
+    side="BOTH"
+
+# citadel is required by iceandfire
+[[dependencies.eyeofdragons]]
+    modId="citadel"
+    mandatory=true
+    versionRange="[1.4.0,)"
+    ordering="AFTER"
+    side="BOTH"
