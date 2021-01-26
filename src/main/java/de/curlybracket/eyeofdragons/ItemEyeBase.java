@@ -2,11 +2,14 @@ package de.curlybracket.eyeofdragons;
 
 import com.github.alexthe666.iceandfire.misc.IafSoundRegistry;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.item.EyeOfEnderEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.EyeOfEnderEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.*;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Hand;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 
@@ -23,7 +26,7 @@ public abstract class ItemEyeBase extends Item {
 
         player.setActiveHand(hand);
 
-        if (!world.isRemote && world.getDimensionKey().equals(World.OVERWORLD)) {
+        if (!world.isRemote && world.getDimension().isSurfaceWorld()) {
             findDragonAndShoot(world, player, itemstack);
         }
 
