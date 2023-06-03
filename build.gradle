@@ -21,7 +21,7 @@ buildscript {
 apply plugin: 'net.minecraftforge.gradle'
 //Only edit below this line, the above code adds and enables the nessasary things for Forge to be setup.
 
-version = "0.1.0"
+version = "0.0.8"
 group= "eyeofdragons"
 archivesBaseName = "eyeofdragons"
 sourceCompatibility = targetCompatibility = "1.8"
@@ -32,7 +32,7 @@ minecraft {
     // stable_#            Stables are built at the discretion of the MCP team.
     // Use non-default mappings at your own risk. they may not always work.
     // Simply re-run your setup task after changing the mappings to update your workspace.
-    mappings channel: 'snapshot', version: '20201028-1.16.3'
+    mappings channel: 'snapshot', version: '20200514-1.15.1'
 
     // Default run configurations.
     // These can be tweaked, removed, or duplicated as needed.
@@ -121,10 +121,10 @@ repositories {
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.16.4-35.1.36'
+    minecraft 'net.minecraftforge:forge:1.15.2-31.2.47'
 
-    compile 'ice-and-fire-dragons:iceandfire:2.1.5:1.16.4'
-    compile 'citadel:citadel:1.5.3:deobf'
+    compile 'ice-and-fire-dragons:iceandfire:2.0.3:1.15.2'
+    compile 'citadel:citadel:1.1.11:deobf'
 }
 
 jar {

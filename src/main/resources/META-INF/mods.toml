@@ -1,5 +1,5 @@
 modLoader="javafml"
-loaderVersion="[35,)"
+loaderVersion="[31,)"
 license="LGPL"
 issueTrackerURL="https://github.com/MKuckert/eye-of-dragons/issues"
 [[mods]]
@@ -16,7 +16,7 @@ Adds Eye of Dragons to find Ice, Fire and Lightning dragons
 [[dependencies.eyeofdragons]]
     modId="iceandfire"
     mandatory=true
-    versionRange="[2.1.5,)"
+    versionRange="[2.0.3,)"
     ordering="AFTER"
     side="BOTH"
 
@@ -24,6 +24,6 @@ Adds Eye of Dragons to find Ice, Fire and Lightning dragons
 [[dependencies.eyeofdragons]]
     modId="citadel"
     mandatory=true
-    versionRange="[1.4.0,)"
+    versionRange="[1.1.11,)"
     ordering="AFTER"
     side="BOTH"
